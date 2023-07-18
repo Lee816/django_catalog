@@ -32,7 +32,7 @@ class Post(models.Model):
     # 기본매니저
     objects = models.Manager()
     # 사용자 정의 매니저
-    published = PublishedManager()
+    published = PublishedManager() # 사용법 Post.published.filter()
 
     # 장고 기본 유저 모델을 사용
     author = models.ForeignKey(
