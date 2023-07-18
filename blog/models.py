@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -30,9 +31,9 @@ class Post(models.Model):
     )
 
     # 기본매니저
-    objects = models.Manager() # 커스텀 매니저 사용할때 필수로 기본매니저도 정의
+    objects = models.Manager()  # 커스텀 매니저 사용할때 필수로 기본매니저도 정의
     # 사용자 정의 매니저
-    published = PublishedManager() # 사용법 Post.published.filter()
+    published = PublishedManager()  # 사용법 Post.published.filter()
 
     # 장고 기본 유저 모델을 사용
     author = models.ForeignKey(
@@ -48,3 +49,6 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("blog:post_detail", kwargs={"id": self.id})
