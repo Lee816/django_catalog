@@ -2,7 +2,11 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+
 # Create your models here.
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED)
 
 
 class Post(models.Model):
@@ -24,6 +28,11 @@ class Post(models.Model):
     status = models.CharField(
         max_length=2, choices=Status.choices, default=Status.DRAFT
     )
+
+    # 기본매니저
+    objects = models.Manager()
+    # 사용자 정의 매니저
+    published = PublishedManager()
 
     # 장고 기본 유저 모델을 사용
     author = models.ForeignKey(
