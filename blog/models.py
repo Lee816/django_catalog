@@ -30,7 +30,7 @@ class Post(models.Model):
     )
 
     # 기본매니저
-    objects = models.Manager()
+    objects = models.Manager() # 커스텀 매니저 사용할때 필수로 기본매니저도 정의
     # 사용자 정의 매니저
     published = PublishedManager() # 사용법 Post.published.filter()
 
