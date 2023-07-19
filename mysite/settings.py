@@ -11,16 +11,19 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os, json
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+with open(os.path.join(BASE_DIR, "secrets.json")) as f:
+    secrets = json.loads(f.read())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#*-%ath6h*45rnu&ce+x69sfn34@2#-m7s)bc^*21%x&u1%vd^"
+SECRET_KEY = secrets["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -125,7 +128,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # 이메일 서버 구성
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "your_google@gmail.com"
-EMAIL_HOST_PASSWORD = "nyweybhvtpyvgrvg"
+EMAIL_HOST_USER = secrets["EMAIL_HOST_USER"]
+EMAIL_HOST_PASSWORD = secrets["EMAIL_HOST_PASSWORD"]
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
