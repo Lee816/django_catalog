@@ -5,6 +5,7 @@ from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Post
+from .forms import EmailPostForm
 
 # Create your views here.
 
@@ -43,6 +44,20 @@ def post_detail(request, year, month, day, slug):
         publish__day=day,
     )
     return render(request, "blog/post/detail.html", {"post": post})
+
+
+def post_share(request, post_id):
+    # id로 글 검색
+    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    if request.method == "POST":
+        # 폼 제출
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            # 폼 필드가 유효한 경우
+            cd = form.cleaned_data
+    else:
+        form = EmailPostForm()
+    return render(request, "blog/post/share.html", {"post": post, "form": form})
 
 
 class PostListView(ListView):
