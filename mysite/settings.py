@@ -124,9 +124,8 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # 이메일 서버 구성
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "your_gamil"
-EMAIL_HOST_PASSWORD = ""
+EMAIL_HOST_USER = "your_google@gmail.com"
+EMAIL_HOST_PASSWORD = "nyweybhvtpyvgrvg"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
