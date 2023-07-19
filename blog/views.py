@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
+from django.core.mail import send_mail
 
 from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -49,15 +50,23 @@ def post_detail(request, year, month, day, slug):
 def post_share(request, post_id):
     # id로 글 검색
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
+    sent = False
     if request.method == "POST":
         # 폼 제출
         form = EmailPostForm(request.POST)
         if form.is_valid():
             # 폼 필드가 유효한 경우
             cd = form.cleaned_data
+            post_url = request.build_absolute_url(post.get_absolute_url())
+            subject = f"{cd['name']}님이 {post.title}을(를) 추천합니다."
+            message = f"{post.title}을(를) 다음에서 읽어보세요.\n\n \ {cd['name']}의 의견 : {cd['comments']}"
+            send_mail(subject, message, "your_gmail", [cd["to"]])
+            sent = True
     else:
         form = EmailPostForm()
-    return render(request, "blog/post/share.html", {"post": post, "form": form})
+    return render(
+        request, "blog/post/share.html", {"post": post, "form": form, "sent": sent}
+    )
 
 
 class PostListView(ListView):
