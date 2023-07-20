@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
+from django.db.models import Count  # Django ORM의 Count 집계 함수
 from taggit.models import Tag
 
 from django.http import Http404
@@ -53,12 +54,31 @@ def post_detail(request, year, month, day, slug):
         publish__month=month,
         publish__day=day,
     )
+
     comments = post.comments.filter(active=True)
     form = CommentForm()
+
+    # 현재 포스트의 태그를 기준으로 검색 values_list() 쿼리셋은 주어진 필드의 값을 튜플로 반환, flat=True 는 튜플을 (1,)과같은 원소가 아닌 1과 같은 단일값을 얻는다.
+    post_tags_ids = post.tags.values_list("id", flat=True)
+
+    # 태그중 하나라도 포함된 모든 포스터를 가져오며 현재 포스트는 제외
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+
+    # Count 집계 함수를 사용하여 공유 태그 수를 나타내는 calculated 필드인 same_tags를 생성
+    # 공유 태그 수로 정렬 후 수가 같다면 최근 포스트를 먼저 표시하며 결과는 4개만 출력
+    similar_posts = similar_posts.annotate(same_tags=Count("tags")).order_by(
+        "-same_tags", "-publish"
+    )[:4]
+
     return render(
         request,
         "blog/post/detail.html",
-        {"post": post, "comments": comments, "form": form},
+        {
+            "post": post,
+            "comments": comments,
+            "form": form,
+            "similar_posts": similar_posts,
+        },
     )
 
 
