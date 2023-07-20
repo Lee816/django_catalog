@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
+from taggit.models import Tag
 
 from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -12,20 +13,27 @@ from .forms import EmailPostForm, CommentForm
 # Create your views here.
 
 
-# def post_list(request):
-#     post_list = Post.published.all()
-#     # 페이지당 3개의 게시물로 페이지네이션
-#     paginator = Paginator(post_list, 3)
-#     page_number = request.GET.get("page", 1)
-#     try:
-#         posts = paginator.page(page_number)
-#     except PageNotAnInteger or TypeError:
-#         # page_number가 정수가 아닌 경우 첫 번째 페이지 제공
-#         posts = paginator.page(1)
-#     except EmptyPage:
-#         # page_number가 범위를 벗어난 경우 결과의 마지막 페이지 제공
-#         posts = paginator.page(paginator.num_pages)
-#     return render(request, "blog/post/list.html", {"posts": posts})
+def post_list(request, tag_slug=None):
+    post_list = Post.published.all()
+
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        post_list = post_list.filter(tags__in=[tag])
+
+    # 페이지당 3개의 게시물로 페이지네이션
+    paginator = Paginator(post_list, 3)
+    page_number = request.GET.get("page", 1)
+
+    try:
+        posts = paginator.page(page_number)
+    except PageNotAnInteger or TypeError:
+        # page_number가 정수가 아닌 경우 첫 번째 페이지 제공
+        posts = paginator.page(1)
+    except EmptyPage:
+        # page_number가 범위를 벗어난 경우 결과의 마지막 페이지 제공
+        posts = paginator.page(paginator.num_pages)
+    return render(request, "blog/post/list.html", {"posts": posts, "tag": tag})
 
 
 # def post_detail(request, id):
