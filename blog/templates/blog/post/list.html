@@ -8,6 +8,14 @@
         <h2>
             <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
         </h2>
+        <p class="tags">
+            Tags : 
+            {% for tag in post.tags.all %}
+                <a href="{% url 'blog:post_list_by_tag' tag.slug %}">
+                    {{ tag.name }}
+                </a>
+            {% endfor %}
+        </p>
         <p class="date">
             Published {{ post.publish }} by {{ post.author }}
         </p>
