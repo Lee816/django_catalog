@@ -1,5 +1,7 @@
 {% extends 'blog/base.html' %}
 
+{% load blog_tags %}
+
 {% block title %}My Blog{% endblock title %}
 
 {% block content %}
@@ -19,7 +21,8 @@
         <p class="date">
             Published {{ post.publish }} by {{ post.author }}
         </p>
-        {{ post.body|truncatewords:30|linebreaks}}
+        {{ post.body|markdown|truncatewords:30}}
+        {% comment %} |markdown 이 필터는 markdown 내용을 HTML로 변환한다. {% endcomment %}
     {% endfor %}
     {% include 'pagination.html' with page=page_obj %}
 {% endblock content %}

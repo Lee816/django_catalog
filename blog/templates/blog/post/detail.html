@@ -1,5 +1,7 @@
 {% extends 'blog/base.html' %}
 
+{% load blog_tags %}
+
 {% block title %}{{ post.title }}{% endblock title %}
 
 {% block content %}
@@ -7,7 +9,8 @@
 <p class="date">
     Published {{ post.publish }} by {{ post.author }}
 </p>
-{{ post.body|linebreaks}}
+{{ post.body|markdown}} 
+{% comment %} |markdown 이 필터는 줄바꿈을 p태그로 변환할 뿐만 아니라 markdown 서식도 HTML로 변환 {% endcomment %}
 <p>
     <a href="{% url 'blog:post_share' post.id %}">Share this post</a>
 </p>
