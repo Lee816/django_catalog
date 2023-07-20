@@ -123,7 +123,7 @@ def post_comment(request, post_id):
 
 
 class PostListView(ListView):
-    queryset = Post.published.all()
+    queryset = Post.published.all().order_by("-updated")
     context_object_name = "posts"
     paginate_by = 3
     template_name = "blog/post/list.html"
