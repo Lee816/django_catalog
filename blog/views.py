@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 from django.db.models import Count  # Django ORM의 Count 집계 함수
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchVector  # 여러 필드에 대한 검색을 해주는 모듈
 
 from .models import Post
 from .forms import EmailPostForm, CommentForm, SearchForm
