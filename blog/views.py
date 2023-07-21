@@ -7,6 +7,7 @@ from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.postgres.search import SearchVector  # 여러 필드에 대한 검색을 해주는 모듈
 from django.contrib.postgres.search import SearchQuery, SearchRank
+from django.contrib.postgres.search import TrigramSimilarity
 
 from .models import Post
 from .forms import EmailPostForm, CommentForm, SearchForm
@@ -130,20 +131,12 @@ def post_search(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data["query"]
-
-            # 형태소(비슷한 단어) 추출
-            # SearchVector 및 SearchQuery 에 config 속성을 전달하여 형태소 추출 및 정지 단어 제거
-            search_vector = SearchVector("title", weight="A") + SearchVector(
-                "body", weight="B"
-            )
-            search_query = SearchQuery(query)
-
             results = (
                 Post.published.annotate(
-                    search=search_vector, rank=SearchRank(search_vector, search_query)
+                    similarity=TrigramSimilarity("title", query),
                 )
-                .filter(rank__gte=0.3)
-                .order_by("-rank")
+                .filter(similarity__gt=0.1)
+                .order_by("-similarity")
             )
             # 형태소 추출 후 SearchRank를 사용하여 결과를 관련성에 따라 순위 지정
             # 제목 검색 벡터에 가중치 'A'를 적용하고 본문 검색 벡터에 가중치 'B'를 적용
