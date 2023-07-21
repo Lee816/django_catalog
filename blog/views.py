@@ -133,17 +133,21 @@ def post_search(request):
 
             # 형태소(비슷한 단어) 추출
             # SearchVector 및 SearchQuery 에 config 속성을 전달하여 형태소 추출 및 정지 단어 제거
-            search_vector = SearchVector("title", "body")
+            search_vector = SearchVector("title", weight="A") + SearchVector(
+                "body", weight="B"
+            )
             search_query = SearchQuery(query)
 
             results = (
                 Post.published.annotate(
                     search=search_vector, rank=SearchRank(search_vector, search_query)
                 )
-                .filter(search=search_query)
+                .filter(rank__gte=0.3)
                 .order_by("-rank")
             )
             # 형태소 추출 후 SearchRank를 사용하여 결과를 관련성에 따라 순위 지정
+            # 제목 검색 벡터에 가중치 'A'를 적용하고 본문 검색 벡터에 가중치 'B'를 적용
+            # 제목 일치는 본문 일치보다 우선하며, 결과를 필터링하여 순위가 0.3보다 높은 결과만 표시
 
     return render(
         request,
