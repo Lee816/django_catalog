@@ -6,6 +6,7 @@ from django.db.models import Count  # Django ORM의 Count 집계 함수
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.postgres.search import SearchVector  # 여러 필드에 대한 검색을 해주는 모듈
+from django.contrib.postgres.search import SearchQuery, SearchRank
 
 from .models import Post
 from .forms import EmailPostForm, CommentForm, SearchForm
@@ -129,9 +130,20 @@ def post_search(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data["query"]
-            results = Post.published.annotate(
-                search=SearchVector("title", "body"),
-            ).filter(search=query)
+
+            # 형태소(비슷한 단어) 추출
+            # SearchVector 및 SearchQuery 에 config 속성을 전달하여 형태소 추출 및 정지 단어 제거
+            search_vector = SearchVector("title", "body")
+            search_query = SearchQuery(query)
+
+            results = (
+                Post.published.annotate(
+                    search=search_vector, rank=SearchRank(search_vector, search_query)
+                )
+                .filter(search=search_query)
+                .order_by("-rank")
+            )
+            # 형태소 추출 후 SearchRank를 사용하여 결과를 관련성에 따라 순위 지정
 
     return render(
         request,
