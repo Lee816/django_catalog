@@ -56,7 +56,7 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return redirect("account:login")
+    return render(request, "account/logged_out.html")
 
 
 @login_required  # 현재 사용자가 인증된 사용자인지 확인하는 데코레이터
