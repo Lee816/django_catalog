@@ -143,8 +143,8 @@ EMAIL_USE_TLS = True
 
 # 로그인
 # 로그인에 성공후 next 매개변수가 요청에 없을때 리디렉션할 url
-LOGIN_REDIRECT_URL = "dashboard"
+LOGIN_REDIRECT_URL = "account:dashboard"
 # 로그인하도록 리디렉션할 url
-LOGIN_URL = "login"
+LOGIN_URL = "account:login"
 # 로그아웃 하도록 리디렉션할 url
-LOGOUT_URL = "logout"
+LOGOUT_URL = "account:logout"
