@@ -14,7 +14,7 @@ def dashboard(request):
 
 
 def register(request):
-    if request.method == "post":
+    if request.method == "POST":
         user_form = UserRegistrationsForm(request.POST)
         if user_form.is_valid():
             # 새로운 사용자 객체를생성하지만 저장은 안함
