@@ -140,6 +140,8 @@ EMAIL_HOST_USER = secrets["EMAIL_HOST_USER"]
 EMAIL_HOST_PASSWORD = secrets["EMAIL_HOST_PASSWORD"]
 EMAIL_PORT = "587"
 EMAIL_USE_TLS = True
+# 이메일을 콘솔로 보여주기
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # 로그인
 # 로그인에 성공후 next 매개변수가 요청에 없을때 리디렉션할 url
