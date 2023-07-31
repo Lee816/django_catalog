@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit your account{% endblock title %}
+
+{% block content %}
+    <h1>Edit your account</h1>
+    <p>You can edit your account using the following form : </p>
+    <form enctype='multipart/form-data' method="post">
+        {% comment %} enctype='multipart/form-data' 는 파일 업로드를 가능하게 만들어줌 {% endcomment %}
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Save changes"></p>
+    </form>
+{% endblock content %}
