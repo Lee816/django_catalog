@@ -150,3 +150,8 @@ LOGIN_REDIRECT_URL = "dashboard"
 LOGIN_URL = "login"
 # 로그아웃 하도록 리디렉션할 url
 LOGOUT_URL = "logout"
+
+
+# 미디어파일
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
