@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
-from .forms import LoginForm, UserRegistrationsForm
+from .forms import LoginForm, UserRegistrationsForm, UserEditForm, ProfileEditForm
+from .models import Profile
 
 # Create your views here.
 
@@ -23,6 +24,8 @@ def register(request):
             new_user.set_password(user_form.cleaned_data["password"])
             # 객체 저장
             new_user.save()
+            # 저장한 객체에 확장모델을 생성
+            Profile.objects.create(user=new_user)
             return render(request, "account/register_done.html", {"new_user": new_user})
     else:
         user_form = UserRegistrationsForm()
