@@ -155,3 +155,9 @@ LOGOUT_URL = "logout"
 # 미디어파일
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# 사용자 인증 백엔드
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",  # 기본 모델 백엔드 사용
+    "account.authentication.EmailAuthBackend",  # 사용자 커스텀 인증 백엔드를 포함
+]
