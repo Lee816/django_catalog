@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -57,3 +58,10 @@ def edit(request):
         "account/edit.html",
         {"user_form": user_form, "profile_form": profile_form},
     )
+
+
+class CustomLoginView(LoginView):  # 로그인시 로그인 화면이 출력되지 않게
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("dashboard")
+        return super().dispatch(request, *args, **kwargs)
