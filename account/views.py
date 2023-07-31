@@ -30,3 +30,26 @@ def register(request):
     else:
         user_form = UserRegistrationsForm()
     return render(request, "account/register.html", {"user_form": user_form})
+
+
+@login_required  # 로그인되어 있는 상태여야함
+def edit(request):
+    if request.method == "POST":
+        user_form = UserEditForm(
+            instance=request.user, data=request.POST
+        )  # 수정 대상이 되는 유저를 user_form 객체를 만들때 instance 인자로서 지정( 기존 유저의 정보를 넘겨줌 )
+        profile_form = ProfileEditForm(
+            instance=request.user.profile, data=request.POST, files=request.FILES
+        )  # data는 text 정보를 files 는 file 정보를 다룬다
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+        return redirect("dashboard")
+    else:
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+    return render(
+        request,
+        "account/edit.html",
+        {"user_form": user_form, "profile_form": profile_form},
+    )
