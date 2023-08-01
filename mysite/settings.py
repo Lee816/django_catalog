@@ -169,3 +169,18 @@ AUTHENTICATION_BACKENDS = [
 # 구글 인증
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = secrets["SOCIAL_AUTH_GOOGLE_OAUTH2_KEY"]
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = secrets["SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET"]
+
+# 소셜 인증 파이프라인 - 사용자가 소셜 인증을사용하여 인증할때 해당 소셜 프로필과 연관된 기본 사용자가 없는경우 새로운 user 객체 생성
+# Python Social Auth 에 사용되는 기본 인증 파이프 라인
+SOCIAL_AUTH_PIPELINE = [
+    "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_uid",
+    "social_core.pipeline.social_auth.auth_allowed",
+    "social_core.pipeline.social_auth.social_user",
+    "social_core.pipeline.user.get_username",
+    "social_core.pipeline.user.create_user",
+    "account.authentication.create_profile",  # 소셜 유저를 생성한 후에 프로필 생성이 가능하다
+    "social_core.pipeline.social_auth.associate_user",
+    "social_core.pipeline.social_auth.load_extra_data",
+    "social_core.pipeline.user.user_details",
+]
