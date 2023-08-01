@@ -162,4 +162,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",  # 기본 모델 백엔드 사용
     "account.authentication.EmailAuthBackend",  # 사용자 커스텀 인증 백엔드를 포함
+    "social_core.backends.facebook.FacebookOAuth2",  # 페이스북 인증
 ]
