@@ -163,4 +163,9 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",  # 기본 모델 백엔드 사용
     "account.authentication.EmailAuthBackend",  # 사용자 커스텀 인증 백엔드를 포함
     "social_core.backends.facebook.FacebookOAuth2",  # 페이스북 인증
+    "social_core.backends.google.GoogleOAuth2",  # 구글 인증
 ]
+
+# 구글 인증
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = secrets["SOCIAL_AUTH_GOOGLE_OAUTH2_KEY"]
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = secrets["SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET"]
