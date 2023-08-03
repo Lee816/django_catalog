@@ -24,6 +24,8 @@ body.innerHTML += boxHtml;
 function bookmarkletLaunch() {
     bookmarklet = document.getElementById('bookmarklet');
     var imagesFound = bookmarklet.querySelector('.images');
+
+    imagesFound.innerHTML = '';
     bookmarklet.style.display = 'block';
     bookmarklet.querySelector('#close')
         .addEventListener('click', function () {
@@ -41,7 +43,7 @@ function bookmarkletLaunch() {
         image.addEventListener('click', function (event) {
             imageSelected = event.target;
             bookmarklet.style.display = 'none';
-            window.open(siteUrl + 'images/create/?url=' +
+            window.open(siteUrl + 'images/create/?url='
                 + encodeURIComponent(imageSelected.src)
                 + '&title='
                 + encodeURIComponent(document.title),
