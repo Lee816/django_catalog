@@ -4,7 +4,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
+from django.contrib.auth.models import User
 from .forms import LoginForm, UserRegistrationsForm, UserEditForm, ProfileEditForm
 from .models import Profile
 
@@ -65,3 +67,13 @@ class CustomLoginView(LoginView):  # 로그인시 로그인 화면이 출력되�
         if request.user.is_authenticated:
             return redirect("dashboard")
         return super().dispatch(request, *args, **kwargs)
+
+@login_required
+def user_list(request):
+    users = User.objects.filter(is_active=True)
+    return render(request,'account/user/list.html',{'section':'people','users':users})
+
+@login_required
+def user_detail(request, username):
+    user = get_object_or_404(User,username=username,is_active=True)
+    return render(request,'account/user/detail.html',{'section':'people','user':user})
