@@ -65,6 +65,9 @@ def image_list(request):
     except PageNotAnInteger:
         images = paginator.page(1)
     except EmptyPage:
+        if images_only:
+            return HttpResponse('')
         images = paginator.page(paginator.num_pages)
-        
-    return render(request, 'images/image/list.html', {'images':images})
+    if images_only:
+        return render(request, 'images/image/list_images.html', {'section':images,'images': images})
+    return render(request, 'images/image/list.html', {'section':images,'images': images})
