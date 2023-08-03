@@ -27,10 +27,11 @@
             <hr>
             Like users
             {% for user in users_like %}
+                    <p>
                     {% if user.profile.photo %}
-                        <img src="{{ user.profile.photo.url }}">
+                        <img src="{{ user.profile.photo.url }}" style='height:25px; width:25px;'>
                     {% endif %}
-                    <p>{{ user.first_name }}</p>
+                    {{ user.first_name }}</p>
             {% empty %}
                 Nobody likes this image yet.
             {% endfor %}
