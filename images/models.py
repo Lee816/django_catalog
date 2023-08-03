@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 # Create your models here.
@@ -45,3 +46,6 @@ class Image(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)  # 슬러스를 먼저 채우고
         super().save(*args, **kwargs)  # 객체 저장
+
+    def get_absolute_url(self):
+        return reverse('images:detail', args=[self.id, self.slug])
