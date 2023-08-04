@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count
 
 from .forms import ImageCreateForm
 from .models import Image
@@ -59,6 +60,11 @@ def image_like(request):
 
 @login_required
 def image_list(request):
+    # total_likes 필드를 이용한 좋아요수 정렬
+    # images_by_popularity = Image.objects.annotate(likes=Count('users_like')).order_by('-likes')
+    # or
+    # images_by_popularity = Image.objects.order_by('-total_likes')
+    
     images = Image.objects.all()
     paginator = Paginator(images,8)
     page = request.GET.get('page')
