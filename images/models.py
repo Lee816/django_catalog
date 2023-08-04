@@ -28,12 +28,14 @@ class Image(models.Model):
     users_like = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="images_liked", blank=True
     )
+    total_likes = models.PositiveBigIntegerField(default=0)
 
     class Meta:
         # created 필드에 대한 내림차순으로 데이터베이스 인덱스를 정의
         # 인덱스는 쿼리 성능을 향상시키기 때문에 조건으로 자주 사용하는 필드에 대해 인덱스를 생성하는 것이 좋다.
         indexes = [
             models.Index(fields=["-created"]),
+            models.Index(fields=['-total_likes']),
         ]
         ordering = ["-created"]
 
