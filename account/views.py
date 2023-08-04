@@ -11,12 +11,21 @@ from django.contrib.auth.models import User
 from .forms import LoginForm, UserRegistrationsForm, UserEditForm, ProfileEditForm
 from .models import Profile, Contact
 from actions.utils import create_action
+from actions.models import Action
 # Create your views here.
 
 
 @login_required  # 현재 사용자가 인증된 사용자인지 확인하는 데코레이터
 def dashboard(request):
-    return render(request, "account/dashboard.html", {"section": "dashboard"})
+    # Display all actions by default
+    actions = Action.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list('id',flat=True)
+    
+    if following_ids:
+        # If user is following ohters, retrieve only their actions
+        actions = actions.filter(user_id__in=following_ids)
+    actions = actions.select_related('user','user__profile').prefetch_related('target')[:10]
+    return render(request, "account/dashboard.html", {"section": "dashboard",'actions':actions})
 
 
 def register(request):
