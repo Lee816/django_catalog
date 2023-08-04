@@ -53,9 +53,11 @@ INSTALLED_APPS = [
     "images.apps.ImagesConfig",
     'easy_thumbnails',
     'actions.apps.ActionsConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'django_toolbar.middleware.DebugToolbarMiddlerware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
