@@ -28,16 +28,12 @@ sitemaps = {
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("blog/", include("blog.urls", namespace="blog")),
-    path(
-        "sitemap.xml",
-        sitemap,
-        {"sitemaps": sitemaps},
-        name="django.contrib.sitemaps.views.sitemap",
-    ),
+    path("sitemap.xml",sitemap,{"sitemaps": sitemaps},name="django.contrib.sitemaps.views.sitemap",),
     path("account/", include("account.urls")),
     path("social-auth/", include("social_django.urls", namespace="social")),
     path('images/',include('images.urls', namespace='images')),
     path('__debug__/', include('debug_toolbar.urls')),
+    path('shop/',include('shop.urls',namespace='shop')),
 ]
 
 if settings.DEBUG:
