@@ -8,12 +8,17 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
+import redis
+from django.conf import settings
 
 from .forms import ImageCreateForm
 from .models import Image
 from actions.utils import create_action
 
 # Create your views here.
+
+# connect to redis
+r = redis.Redis(host=settings.REDIS_HOST,port=settings.REDIS_PORT,db=settings.REDIS_DB)
 
 # 로그인 상태여야 이미지를 등록 할 수 있다
 @login_required
@@ -35,9 +40,13 @@ def image_create(request):
 
 def image_detail(request, id, slug):
     image = get_object_or_404(Image, id=id, slug=slug)
+    # increment total image views by 1
+    # incr()명령은 주어진 키의 값을 1씩 증가 시키고 키가 존재하지 않는다면 incr 명령이 키를 생성한다.
+    # incr()메서드는 작업을 수생한 후 키의 최종값을 반환한다.
+    total_views = r.incr(f'image:{image.id}:views')
     return render(request,
                   'images/image/detail.html',
-                  {'section': 'images', 'image': image})
+                  {'section': 'images', 'image': image,'total_views':total_views})
     
 @login_required
 @require_POST
