@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'actions.apps.ActionsConfig',
     'debug_toolbar',
+    'shop.apps.ShopConfig',
 ]
 
 MIDDLEWARE = [
