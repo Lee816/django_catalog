@@ -201,3 +201,7 @@ if DEBUG:
     import mimetypes
     mimetypes.add_type('application/javascript','.js',True)
     mimetypes.add_type('text/css','.css',True)
+    
+REDIS_HOT = secrets['REDIS_HOST']
+REDIS_PORT = secrets['REDIS_PORT']
+REDIS_DB = secrets['REDIS_DB']
