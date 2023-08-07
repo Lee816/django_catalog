@@ -44,9 +44,28 @@ def image_detail(request, id, slug):
     # incr()명령은 주어진 키의 값을 1씩 증가 시키고 키가 존재하지 않는다면 incr 명령이 키를 생성한다.
     # incr()메서드는 작업을 수생한 후 키의 최종값을 반환한다.
     total_views = r.incr(f'image:{image.id}:views')
+    # increment image ranking by 1
+    # zincrby() 명령을 사용하여 image_ranking 이라는 정렬도니 집합에 이미지 조회수를 저장
+    # 이미지 ID와 관련된 점수로 1을 추가하고 이를 정렬된 집합의 해당 요소의 총 점수에 더한다.
+    # 이를 통해 전역적으로 모든 이미지 조회수를 추적하고 총 조회수를 기준으로 정렬된 집합을 유지할 수있게 된다.
+    r.zincrby('image_ranking',1,image.id)
     return render(request,
                   'images/image/detail.html',
                   {'section': 'images', 'image': image,'total_views':total_views})
+    
+@login_required
+def image_ranking(request):
+    # get image ranking dectionary
+    # zrange() 명령을 사용하여 정렬된 집합의 요소를 가져온다.
+    image_ranking = r.zrange('image_ranking',0,-1,desc=True)[:10]
+    # 가져온 이미지 ID를 정수 리스트로 저장
+    image_ranking_ids = [int(id) for id in image_ranking]
+    # get most viewed images
+    # 해당 ID를 가진 image 객체를 가져와서 쿼리셋을 리스트로 변환
+    most_viewed = list(Image.objects.filter(id__in=image_ranking_ids))
+    most_viewed.sort(key=lambda x: image_ranking_ids.index(x.id))
+    
+    return render(request,'images/image/ranking.html',{'section':'images','most_viewed':most_viewed})
     
 @login_required
 @require_POST
