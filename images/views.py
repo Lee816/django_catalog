@@ -45,7 +45,7 @@ def image_detail(request, id, slug):
     # incr()메서드는 작업을 수생한 후 키의 최종값을 반환한다.
     total_views = r.incr(f'image:{image.id}:views')
     # increment image ranking by 1
-    # zincrby() 명령을 사용하여 image_ranking 이라는 정렬도니 집합에 이미지 조회수를 저장
+    # zincrby() 명령을 사용하여 image_ranking 이라는 정렬된 집합에 이미지 조회수를 저장
     # 이미지 ID와 관련된 점수로 1을 추가하고 이를 정렬된 집합의 해당 요소의 총 점수에 더한다.
     # 이를 통해 전역적으로 모든 이미지 조회수를 추적하고 총 조회수를 기준으로 정렬된 집합을 유지할 수있게 된다.
     r.zincrby('image_ranking',1,image.id)
