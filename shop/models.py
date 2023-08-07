@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -16,6 +17,10 @@ class Category(models.Model):
         
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse("shop:product_list_by_category", args=[self.slug])
+    
     
 class Product(models.Model):
     # Category 모델에 대한 외래키이며 1:N 관계이다. 제품은 하나의 카테고리에 속하고, 하나의 카테고리는 여러개의 제품이 속한다.
@@ -42,3 +47,7 @@ class Product(models.Model):
         
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse("shop:product_detail", args=[self.id , self.slug])
+    
