@@ -210,7 +210,11 @@ if DEBUG:
     import mimetypes
     mimetypes.add_type('application/javascript','.js',True)
     mimetypes.add_type('text/css','.css',True)
-    
+
+# redis 설정
 REDIS_HOST = secrets['REDIS_HOST']
 REDIS_PORT = secrets['REDIS_PORT']
 REDIS_DB = secrets['REDIS_DB']
+
+# 세션 설정 (장바구니 기능에 사용)
+CART_SESSION_ID = 'cart'
