@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'actions.apps.ActionsConfig',
     'debug_toolbar',
     'shop.apps.ShopConfig',
+    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
