@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +147,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'blog','static'),
     os.path.join(BASE_DIR,'images','static'),
     os.path.join(BASE_DIR,'shop','static'),
+    os.path.join(BASE_DIR,'orders','static'),
 ]
 
 # Default primary key field type
