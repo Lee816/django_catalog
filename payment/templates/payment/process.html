@@ -1,0 +1,40 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}Order Payment{% endblock title %}
+
+{% block content %}
+    <h1>Order</h1>
+    <table class="cart">
+        <thead>
+            <tr>
+                <th>이미지</th>
+                <th>상품</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>총 가격</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+                <tr class="row{% cycle '1' '2' %}">
+                    <td>
+                        <img src="{% if item.product.image %}{{ item.product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" >
+                    </td>
+                    <td>{{ itam.product.name }}</td>
+                    <td class="num">${{ item.price }}</td>
+                    <td class="num">{{ item.quantity }}</td>
+                    <td class="num">${{ item.get_cost }}</td>
+                </tr>
+            {% endfor %}
+            <tr class="total">
+                <td colspan='4'>합계</td>
+                <td class="num">${{ order.get_total_cost }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="{% url 'payment:process' %}" method='post'>
+        <input type="submit" value="Pay">
+        {% csrf_token %}
+    </form>
+{% endblock content %}
