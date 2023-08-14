@@ -222,3 +222,8 @@ REDIS_DB = secrets['REDIS_DB']
 
 # 세션 설정 (장바구니 기능에 사용)
 CART_SESSION_ID = 'cart'
+
+# Stripe 설정
+STRIPE_PUBLISHABLE_KEY = secrets['STRIPE_PUBLISHABLE_KEY']
+STRIPE_SECRET_KEY = secrets['STRIPE_SECRET_KEY']
+STRIPE_API_VERSION = secrets['STRIPE_API_VERSION']
