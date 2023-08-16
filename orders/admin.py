@@ -3,19 +3,11 @@ from django.utils.safestring import mark_safe
 import csv
 import datetime
 from django.http import HttpResponse
+from django.urls import reverse
 
 from .models import Order,OrderItem
 
 # Register your models here.
-
-def order_payment(obj):
-    url = obj.get_stripe_url()
-    if obj.stripe_id:
-        html = f'<a href="{url}" target="_blank">{obj.stripe_id}</a>'
-        return mark_safe(html)
-    return ''
-
-order_payment.short_description = 'Stripe payment'
 
 def export_to_csv(modeladmin,request,queryset):
     opts = modeladmin.model._meta
@@ -35,7 +27,7 @@ def export_to_csv(modeladmin,request,queryset):
     writer.writerow([field.verbose_name for field in fields])
     
     # Write data rows
-    # QuerySet을 반봅해 각 객체에 대한 행을 작성하며 CSV의 출력 값은 문자열 이어야 하므로 datetime 객체를 형식에 맞게 문자열로 변환
+    # QuerySet을 반복해 각 객체에 대한 행을 작성하며 CSV의 출력 값은 문자열 이어야 하므로 datetime 객체를 형식에 맞게 문자열로 변환
     for obj in queryset:
         data_row = []
         for field in fields:
@@ -54,10 +46,23 @@ export_to_csv.short_desciption = 'Esport to CSV'
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     raw_id_fields = ['product']
+    
+def order_detail(obj):
+    url = reverse('orders:admin_order_detail',args=[obj.id])
+    return mark_safe(f'<a href="{url}" >View</a>')
+
+def order_payment(obj):
+    url = obj.get_stripe_url()
+    if obj.stripe_id:
+        html = f'<a href="{url}" target="_blank">{obj.stripe_id}</a>'
+        return mark_safe(html)
+    return ''
+
+order_payment.short_description = 'Stripe payment'
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id','first_name','last_name','email','address','postal_code','city','paid',order_payment,'created','updated']
+    list_display = ['id','first_name','last_name','email','address','postal_code','city','paid',order_payment,'created','updated',order_detail]
     list_filter = ['paid','created','updated']
     inlines = [OrderItemInline]
     actions = [export_to_csv]

@@ -1,7 +1,7 @@
-from django.conf import settings
 from django.db import models
 
 from shop.models import Product
+from mysite import settings
 
 # Create your models here.
 

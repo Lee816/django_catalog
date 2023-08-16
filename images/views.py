@@ -9,11 +9,11 @@ from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
 import redis
-from django.conf import settings
 
 from .forms import ImageCreateForm
 from .models import Image
 from actions.utils import create_action
+from mysite import settings
 
 # Create your views here.
 

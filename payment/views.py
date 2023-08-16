@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.conf import settings
 from decimal import Decimal
 from django.urls import reverse
 
 import stripe
 
 from orders.models import Order
+from mysite import settings
 
 # Create your views here.
 
