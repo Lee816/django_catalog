@@ -29,7 +29,7 @@ def payment_process(request):
         }
         # 주문 항목을 Stripe checkout 세션에 추가
         for item in order.items.all():
-            session_data['line_items']({
+            session_data['line_items'].append({
                 'price_data':{
                     'unit_amount':int(item.price * Decimal('100')),
                     'currency':'usd',
