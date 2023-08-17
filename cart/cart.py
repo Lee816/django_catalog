@@ -90,4 +90,4 @@ class Cart:
     
     # get_discount() 메서드가 반환한 금액을 총액에서 빼고 할인이 적용된 카트의 총액을 반환한다.
     def get_total_price_after_discount(self):
-        return self.get_total_price() - self.get_discount
+        return self.get_total_price() - self.get_discount()
