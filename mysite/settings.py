@@ -154,6 +154,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # EMAIL_HOST_PASSWORD = secrets["EMAIL_HOST_PASSWORD"]
 # EMAIL_PORT = "587"
 # EMAIL_USE_TLS = True
+
 # 이메일을 콘솔로 보여주기
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
