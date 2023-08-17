@@ -19,7 +19,12 @@ def order_create(request):
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            order = form.save()
+            order = form.save(commit=False)
+            # 데이터베이스에 바로 적용하지 않고 쿠폰이 있을경우 쿠폰 정보와 함께 저장
+            if cart.coupon:
+                order.coupon = cart.coupon
+                order.discount = cart.coupon.discount
+            order.save()
             for item in cart:
                 OrderItem.objects.create(order=order,product=item['product'],price=item['price'],quantity=item['quantity'])
 
