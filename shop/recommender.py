@@ -44,6 +44,7 @@ class Recommender:
             r.zrem(tmp_key,*product_ids)
             # zrange를 이용하여 임시 키에서 제품 ID를 점수에 따라 정렬하여 가져온다.
             suggestions = r.zrange(tmp_key,0,-1,desc=True)[:max_results]
+            r.delete(tmp_key)
         suggested_products_ids = [int(id) for id in suggestions]
         suggested_products = list(Product.objects.filter(id__in=suggested_products_ids))
         suggested_products.sort(key=lambda x: suggested_products_ids.index(x.id))
