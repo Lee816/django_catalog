@@ -39,6 +39,12 @@ def payment_process(request):
                 },
                 'quantity':item.quantity,
             })
+        if order.coupon:
+            # 쿠폰이 있는 경우 stripe.Coupon.create()를 사용하여 쿠폰을 생성
+            # name - 주문 객체의 쿠폰 코드, percent_off - 주문 객체의 할인율, duration - 일회성 쿠폰임을 인식
+            stripe_coupon = stripe.Coupon.create(name=order.coupon.code,percent_off=order.discount,duration='once',)
+            # 쿠폰을 생성한 후 해당 쿠폰의 id를 session_data 딕셔너리에 추가
+            session_data['discounts'] = [{'coupon':stripe_coupon.id}]
         # create Stripe checkout session
         session = stripe.checkout.Session.create(**session_data)
         # redirect to Stripe payment form
