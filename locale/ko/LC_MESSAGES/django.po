@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 11:19+0900\n"
+"POT-Creation-Date: 2023-08-21 15:09+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,14 @@ msgstr "수량"
 #: .\coupons\forms.py:5
 msgid "Coupon"
 msgstr "쿠폰"
+
+#: .\mysite\settings.py:137
+msgid "English"
+msgstr "영어"
+
+#: .\mysite\settings.py:138
+msgid "Korean"
+msgstr "한국어"
 
 #: .\shop\templates\shop\base.html:10 .\shop\templates\shop\base.html:14
 msgid "My shop"
@@ -45,10 +53,11 @@ msgid_plural ""
 "                        %(items)s item, $%(total)s\n"
 "                        "
 msgstr[0] ""
+msgstr[1] ""
 
 #: .\shop\templates\shop\base.html:29
 msgid "Your cart is empty."
-msgstr "장바구니 비었습니다."
+msgstr "장바구니가 비었습니다"
 
 #: .\shop\templates\shop\product\detail.html:20
 msgid "Add to cart"
@@ -56,7 +65,7 @@ msgstr "장바구니에 추가"
 
 #: .\shop\templates\shop\product\detail.html:25
 msgid "People who bought this also bought"
-msgstr "같이 구매한 상품"
+msgstr "사람들이 함께 구매한 제품"
 
 #: .\venv\Lib\site-packages\click\_termui_impl.py:518
 #, python-brace-format
@@ -1667,9 +1676,3 @@ msgstr ""
 msgctxt "stick"
 msgid "club"
 msgstr ""
-
-#~ msgid "English"
-#~ msgstr "영어"
-
-#~ msgid "Krean"
-#~ msgstr "한국어"

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os, json
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -59,7 +60,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'payment.apps.PaymentConfig',
     'coupons.apps.CouponsConfig',
-    'restta',
+    'rosetta',
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "ko-kr"
+LANGUAGE_CODE = "en"
+# LANGUAGE_CODE 보다 아래 쪽에 정의
+LANGUAGES = [
+    ('en', _('English')),
+    ('ko', _('Korean')),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',  # '/Users/dan/workspace/mysite/locale'
+]
 
 TIME_ZONE = "Asia/Seoul"
 
