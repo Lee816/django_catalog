@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 10:33+0900\n"
+"POT-Creation-Date: 2023-08-21 11:19+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,46 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\cart\forms.py:8
+msgid "Quantity"
+msgstr "수량"
+
+#: .\coupons\forms.py:5
+msgid "Coupon"
+msgstr "쿠폰"
+
+#: .\shop\templates\shop\base.html:10 .\shop\templates\shop\base.html:14
+msgid "My shop"
+msgstr "쇼핑몰"
+
+#: .\shop\templates\shop\base.html:20
+msgid "Your cart"
+msgstr "장바구니"
+
+#: .\shop\templates\shop\base.html:22
+#, python-format
+msgid ""
+"\n"
+"                        %(items)s item, $%(total)s\n"
+"                        "
+msgid_plural ""
+"\n"
+"                        %(items)s item, $%(total)s\n"
+"                        "
+msgstr[0] ""
+
+#: .\shop\templates\shop\base.html:29
+msgid "Your cart is empty."
+msgstr "장바구니 비었습니다."
+
+#: .\shop\templates\shop\product\detail.html:20
+msgid "Add to cart"
+msgstr "장바구니에 추가"
+
+#: .\shop\templates\shop\product\detail.html:25
+msgid "People who bought this also bought"
+msgstr "같이 구매한 상품"
 
 #: .\venv\Lib\site-packages\click\_termui_impl.py:518
 #, python-brace-format

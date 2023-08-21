@@ -21,7 +21,7 @@
                     <a href="{% url 'cart:cart_detail' %}">
                         {% blocktrans with total=cart.get_total_price count items=total_items %}
                         {{ items }} item, ${{ total }}
-                        {% pluralize %}
+                        {% plural %}
                         {{ items }} item, ${{ total }}
                         {% endblocktrans %}
                     </a>
