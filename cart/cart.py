@@ -68,6 +68,8 @@ class Cart:
     # 세션에서 장바구니를 제거
     def clear(self):
         del self.session[settings.CART_SESSION_ID]
+        if 'coupon_id' in self.session:
+            del self.session['coupon_id']
         self.save()
         
     # 쿠폰 관련 메서드
