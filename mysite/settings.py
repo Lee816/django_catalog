@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'payment.apps.PaymentConfig',
     'coupons.apps.CouponsConfig',
     'rosetta',
+    'parler',
 ]
 
 MIDDLEWARE = [
@@ -240,3 +241,17 @@ STRIPE_WEBHOOK_SECRET = secrets['STRIPE_WEBHOOK_SECRET']
 
 # Celery 즉시 실행 설정
 CELERY_TASK_ALWAYS_EAGER = True
+
+# django-parler settings
+PARLER_LANGUAGES = {
+    # django-parler 에 사용가능한 언어인 en 및 ko를 정의
+    None : (
+        {'code':'en'},
+        {'code':'ko'},
+    ),
+    # 기본언어 en을 지정하고 django-parler가 번역되지 않은 콘텐츠를 숨기지 않아야 함을 나타냄
+    'default' : {
+        'fallback' : 'en',
+        'hide_untranslated':False,
+    }
+}
