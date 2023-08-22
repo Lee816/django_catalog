@@ -20,12 +20,16 @@ from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import PostSitemap
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls.i18n import i18n_patterns
+from django.utils.translation import gettext_lazy as _
+
+from payment import webhooks
 
 sitemaps = {
     "posts": PostSitemap,
 }
 
-urlpatterns = [
+urlpatterns = i18n_patterns(
     path("admin/", admin.site.urls),
     path("blog/", include("blog.urls", namespace="blog")),
     path("sitemap.xml",sitemap,{"sitemaps": sitemaps},name="django.contrib.sitemaps.views.sitemap",),
@@ -34,11 +38,15 @@ urlpatterns = [
     path('images/',include('images.urls', namespace='images')),
     path('__debug__/', include('debug_toolbar.urls')),
     path('shop/',include('shop.urls',namespace='shop')),
-    path('cart/',include('cart.urls',namespace='cart')),
-    path('orders/',include('orders.urls',namespace='orders')),
-    path('payment/',include('payment.urls',namespace='payment')),
-    path('coupons/',include('coupons.urls',namespace='coupons')),
+    path(_('cart/'),include('cart.urls',namespace='cart')),
+    path(_('orders/'),include('orders.urls',namespace='orders')),
+    path(_('payment/'),include('payment.urls',namespace='payment')),
+    path(_('coupons/'),include('coupons.urls',namespace='coupons')),
     path('rosetta/',include('rosetta.urls')),
+)
+
+urlpatterns += [
+    path('webhook/',webhooks.stripe_webhook,name='stripe-webhook'),
 ]
 
 if settings.DEBUG:
