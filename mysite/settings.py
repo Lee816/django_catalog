@@ -245,7 +245,7 @@ CELERY_TASK_ALWAYS_EAGER = True
 # django-parler settings
 PARLER_LANGUAGES = {
     # django-parler 에 사용가능한 언어인 en 및 ko를 정의
-    None : (
+    1 : (
         {'code':'en'},
         {'code':'ko'},
     ),
